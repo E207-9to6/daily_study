@@ -1,0 +1,71 @@
+프론트 복습 1일차
+
+짜증나는 js 특징들 정리
+
+DOM -> Document Object Model (tree 구조)
+BOM -> Browser Object Model -> web 을 제어하는 js
+ex) window, document, history, location, screen, navigator
+
+navigator의 경우 call back 함수의 성질을 띈다
+
++@ call back 함수  => 동기 비동기 할떄 헷갈릴 수 있다.
+콜백함수란 ?
+js 에서 함수는 객체인데 함수의 파라미터로서 객체를 전달하는 방식을 call back 함수라고 한다.
+
+const message = function() {
+    console.log("This message is shown after 3 seconds");
+}
+
+setTimeout(message, 3000); => message를 파라미터로 가지는 call back 함수
+
+setTimeout(function() {
+    console.log("This message is shown after 3 seconds");
+}, 3000);   => 변형 가능
+
+function() 대신 () => 로 변환하면 arrow function으로도 사용가능 
+
+event 처리를 목적으로 한 call back 함수
+
+<button id="callback-btn">Click here</button>
+
+document.queryselector("#callback-btn")
+    .addEventListener("click", function() {
+      console.log("User has clicked on the button!");
+});
+
+script 태그
+html 코드는 순차적으로 읽기 떄문에 script 태그보다 밑에있는 id를 가진 태그값들은 받지 못한다.
+해결법
+1. scrupt tag를 최하단에 둔다
+2. window.onload = function () {} 안에 함수를 넣으면 html을 다 읽어들인 다음 동작한다.
+하지만 위 두방법은 html을 읽던 도중 script fetch를 하기 때문에 비효율적임
+이를 해결하기 위해서 defer, async를 사용
+
+<script src = "???.js" defer> -> defer를 걸면 비동기로 js 파일을 불러옴
+(script fetch와 html parsing이 동시에 일어남)
+
+async 는 defer와 비슷하나 차이점이 있다면 parsing 도중에 실행을 해버린다는 차이가 있다.
+defer 는 html parsing이 다 끝난다음 script를 실행함
+즉 script fetch 하는 시간 만큼만 절약
+
+this ??? -> 호출하는 것
+호출한 요소가 없다면 default로 window 객체를 부름.
+callback 함수 안에서 this를 사용하면 부른 btn을 가리킴 ex)btn.addEventListener
+this를 원하는 객체로 바꾸고 싶을때? -> bind 사용함
+
+주의점: arrow function 자신을 포함하고 있는 scope의 this를 물려받는다.
+주의점2: strict mode를 사용하면 this를 쓰면 this의 기본값이 window가 아닌 undefined가 된다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
