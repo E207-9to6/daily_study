@@ -1,0 +1,80 @@
+1. Node.js
+Node.js 설치해야한다.
+Node js?
+자바 스크립트는 브라우저 내장 자바스크립트 엔진을 이용하여 사용됨
+이떄 브라우저마다 사용되는 엔진이 다르다.
+자바스크립트가 브라우저가 아닌 어디에서나 사용할 수 있도록 만든 것 = Node js
+=> 자바스크립트의 실행환경
+즉 브라우저 없이 컴퓨터로 독립적으로 실행이 가능해져, 태생적 한계가 사라짐.
+리엑트는 Node.js를 기반으로 만들어진 라이브러리이다.
+
+다른파일의 함수를 쓰고싶을떄? 모듈을 내보내야함
+단 require, modeul exports는 nodejs의 문법이므로 바닐라 js에서는 사용이 어렵다.
+
+예제코드 (다른파일에서 내보넨 모듈을 index.js 에서 사용함.
+모듈단위로 객체를 전달해주고 받는 것이 가능하다.
+const calc = require("./calc");
+
++ 단 npm i 를 통해 다운받은 외부의 모듈은 경로 명시할 필요없이
+const randomColor = require('randomcolor');
+이런식으로 쓰는 것이 가능하다.
+
+console.log(calc);
+
+console.log(calc.add(1, 2));
+console.log(calc.sub(5, 2));
+=========
+const add = (a, b) => a + b;
+const sub = (a, b) => a - b;
+
+module.exports = {
+  moduleName: "calc module",
+  add: add,
+  sub: sub,
+};
+
+2. NPM = Node Package Manager
+Node.js의 패키지 관리 도구
+
+npm init -> 초기화
+터미널로 명령어 실행하면 package.json 파일이 생성됨
+즉 패키지 초기화가 문제없이 됨.
+우리가 만들 페키지의 환경설정 파일
+
+{
+  "name": "package-example1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
+main : 진입파일
+이 패키지를 실행할때 어떤 파일을 실행해야하나? => index.js를 실행해야함
+scripts : 패키지를 개발하며 자주 실행해야하는 명령어를 정의해 놓는 곳
+scripts를 수정한다면?
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "node index.js"
+  },
+
+start 명령어를 입력하면, node index.js라는 명령이 실행된다.
+
+npm start -> 에러뜸 => index.js 파일 추가하기 (에러 메세지 확인하기)
+
+패키지 사용할떄는 npm 붙인다음 명령어를 붙여줘야함
+npmjs 사이트가면 다양한 패키지 다운 가능하다.
+패키지를 설치하면 현재 위치한 npm node package 기준으로 설치가 되는데
+그 기준이 되는 파일이 package.json 이다.
+버전앞에 ^ 기호가 있으면 그 버전 이상으로만 작동한다는 뜻이지, 정확한 버전은 아님
+정확히 몇버전인지를 확인하기 위해서는 package-lock.json 을 사용해야 함.
+
+
+
+
+
+
+
