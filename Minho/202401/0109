@@ -1,0 +1,101 @@
++@ ajax (api 요청받는 다른방법)
+리엑트, 뷰같은 환경에서는 axios 라이브러리 설치하여 
+axios.get.then.catch()로 사용하는 경우도 많다.
+
+리엑트 성질
+리엑트를 사용해야 하는 이유 3가지
+Nodejs 기반의 라이브러리 webpack, babel library도 필요함
+webpack : 다수의 자바스크립트 파일 합쳐줌 (모듈 번들 라이브러리)
+babel => jsx등의 문법을 사용할 수 있도록 하는 라이브러리
+
+1. 서로 다른 페이지인데 똑같은 코드가 존재한다면?
+중복되는 부분이 많아져서 비효율적임 => 유지보수가 어려워짐
+리엑트는 컴포넌트 단위로 관리하여, 컴포넌트를 불러서 코딩하는 것이 가능함. (뷰와 동일함)
+=> 컴포넌트 기반의 UI 라이브러리
+
+2. 기존방식 => 명령형 프로그래밍 : 절차를 하나하나 다 나열해야해 코드가 굉장히 길어진다.
+선언형프로그래밍 => 목적을 바로 말하고 수행시킨다.
+
+명령형 프로그래밍으로 웹 설계 = JQuery
+선언형 프로그래밍으로 웹 설계 = React => 프론트에서는 선언형이 더 적합함.
+
+3. Virtual Dom
+Dom = Document Object Model 문서객체모델 => 트리형태로 만든 객체
+기존 브라우저는 잦은 업데이트 상황일때 필요이상의 업데이트를 하여 성능이 저해됨
+리엑트는 이러한 문제를 해결하기 위해 virtual dom을 사용함
+
+즉 가상의 dom을 사용하여 JS가 요소를 추가하여 발생하는 변화를 가상의 DOM
+에 업데이트 한후 한번에 real dom에 업데이트시킴.
+가상의 dom은 렌더링 과정(화면에 그리는과정) 거치지 않으므로 기존 dom 보다 처리속도가 빠름.
+5번 업데이트할걸, 한번만에 5번을 통쨰로 업데이트함.
+
+리엑트 설치 명령어 (npm을 간소화한 npx를 사용함)
+npx create-react-app reactexam1
+
+
+리엑트 설치한 다음 살펴보면
+루트 폴더안에 폴더가 하나 더있음
+따라서 폴더안에 있는내용 cntr x 로 잘라내기 한후 밖으로 빼낸다.
+npm start => react app이 켜짐
+local host 주소 3000
+
+App 함수 => html을 리턴함
+app 함수가 리턴하는 html이 크롬에 표시됨
+app이 return하는 화면은 id가 root인 div 아래로 자식요소로 들어감.
+
+index.js를 살펴보면 
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+이 코드에서 root.render 떄문에 id가 root인 자식요소로 들어감
+public 폴더에 index.html 파일에 있는 div 태그이다.
+git에 올릴떄는 node modules를 지운다음 올린다. (용량 초과 방지)
+node-module이 없는 프로젝트라면
+npm i 하면 다시 package.json에 명시된 모듈들이 설치된다.
+
+robots.txt => 수집 여부 파악하는 경로기준 정하는 파일
+
+app.test.js, logo.svg, reportwebbital,setuptest.js 파일 지워주기 => 당장 쓰지 않음
+js와 html을 혼종해서 사용할수 있는 문법 = JSX
+예시
+
+function App() {
+  let name = "김싸피";
+  return (
+    <div className="App">
+      <header className="App-header">
+        <h2>안녕 리엑트 {name}</h2>
+      </header>
+    </div>
+  );
+}
+
+{name}을 통해 let name을 받음
+
+
+export default App;
+
+export default로 내보내면
+다른 파일에서 import 이름 from 경로 로 사용가능함
+이름은 마음데로 설정해도됨
+import App from "./App";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
