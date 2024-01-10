@@ -7,6 +7,10 @@
     - 분할 정복
         - 문제가 발생하였을 때 나누어 생가하면 쉽게 해결할 수 있다.
 
+- 7 -> 1 계층 - 캡슐화 : 각 층마다 인식할 수 있어야 하는 헤더를 붙임
+- 1 -> 7 계층 - 디캡슐화 : 헤더를 떼어냄
+
+
 *PDU(Process Data Unit)
 - 각 계층에서 전송되는 단위
     - 2계층 : 프레임
@@ -196,6 +200,7 @@ IP 계층 상에 있는 주요 프로토콜
 - 응용 계층은 응용 프로세스와 직접 관계하여 일반적인 응용 서비스를 수행한다.
 
 - 프로토콜 : HTTP, DNS, Talnet, FTP 등
+- 메일, 인터넷, 동영상 플레이어? 등
 
 -> 네트워크 소프트웨어 UI 부분, 사용자의 입출력(I/O) 부분
 
@@ -220,15 +225,56 @@ IP 계층 상에 있는 주요 프로토콜
 3. 목적지에 원하는 데이터가 전송된다.
 
 
+#### 정리
+7계층 - 응용 계층
+    - 최정 목적지로 응용 프로세스와 직접 관계하여 일반적인 응용 서비스를 수행(explore, chrome 등)
+    
+    - HTTP, FTP, SMTP, POP3, IMAP, Telnet 등과 같은 프로토콜
+6계층 - 표현 계층
+    - 데이터의 표현방식을 결정(데이터 변환, 압축, 암호화)
+    - 파일인코딩, 명령어를 포장, 압축, 암호화
+
+    - JPEG, MPEG, GIF, ASCII
+5계층 - 세션 계층
+    - 주 지점간의 프로세스 및 통신하는 호스트 간의 연결 유지
+    - TCP/IP 세션 체결, 포트번호를 기반으로 통신 세션 구성
+
+    - 데이터
+    - API, SOcket
+4계층 - 전송 계층
+    - 두 지점간의 신로성 있는 데이터를 주고 받을 수 있도록 한다.
+    - 신호를 분산하고 다시 합치는 과정을 통해 에러와 경로를 제어
+    - port 번호, 전송방식(TCP, UDP) 결정(TCP 헤더 붙음)
+
+    - 데이터 / TCP 헤더
+    - 세그먼트
+3계층 - 네트워크 계층
+    - 라우터를 통해 경로를 선택하고 주소를 정하고(IP) 경로(Route)에 따라 패킷을 전달(IP 헤더 붙음)
+
+    - 데이터 / TCP 헤더 / IP 헤더
+    - 패킷
+    - 라우터
+2계층 - 데이터 링크 계층
+    - 물리계층을 통해 송수신되는 정보의 오류와 흐름을 관리
+    - 프레임에 주소(MAC)를 부여하고 에러검출, 재전송, 흐름제어를 수행
+
+    - 데이터 / TCP 헤더 / IP 헤더 / MAC 주소
+    - 프레임
+    - 브리지, 스위치, 이더넷
+1계층 - 물리 계층
+    - 데이터를 전기적인 신호(0, 1)로 변환해서 주고받는 기능만 한다.
+
+    - 비트(0, 1)
+    - 통신 케이블, 리피터, 허브
+
+
 #### 링크
+
+https://www.cloudflare.com/ko-kr/learning/ddos/glossary/open-systems-interconnection-model-osi/
 
 https://backendcode.tistory.com/167
 
 https://lxxyeon.tistory.com/155
 
-https://velog.io/@cgotjh/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC-OSI-7-%EA%B3%84%EC%B8%B5-OSI-7-LAYER-%EA%B8%B0%EB%B3%B8-%EA%B0%9C%EB%85%90-%EA%B0%81-%EA%B3%84%EC%B8%B5-%EC%84%A4%EB%AA%85
 
-https://velog.io/@jybin96/OSI-7%EA%B3%84%EC%B8%B5%EC%9D%B4%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%BC%EA%B9%8C
-
-https://www.cloudflare.com/ko-kr/learning/ddos/glossary/open-systems-interconnection-model-osi/
 
