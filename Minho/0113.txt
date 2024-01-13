@@ -1,0 +1,99 @@
+리스트 렌더링 (조회)
+
+
+연습용 객체 넘기는 방법
+const dummyList = [
+  {
+    id: 1,
+    author: "김싸피",
+    content: "하이 1",
+    emotion: 5,
+    created_data: new Date().getTime(),
+  },
+];
+getTime()으로 숫자를 반환해야 문자열로 바꿀떄 편함.
+
+<DiaryList diaryList={dummyList} /> prop을 이용해 DiaryList Component로 전달
+
+const DiaryList = ({ diaryList }) => { // props를 받을 때는 중괄호 사용하기.
+  console.log(diaryList);
+  return (
+    <div className="DiaryList">
+      <h2>일기 리스트</h2>
+      <h4>{diaryList.length}개의 일기가 있습니다.</h4>
+    </div>
+  );
+};  
+
+      <div>
+        {diaryList.map((it) => (
+          <dib>일기아이템</dib>
+        ))}
+      </div>
+list.map => 각각의 요소를 전부 순회함. 반복되는 컴포넌트 렌더링용으로 사용
+리스트의 각 요소들은 반드시 key props를 받아야 구분이되어 에러가 뜨지 않음
+key prop을 받기위해 고유한 id값을 설정함. (key)
+
+            <div key={it.id}>
+              <div>작성자 : {it.author}</div>
+              <div>일기 : {it.content}</div>
+              <div>감정 : {it.emotion}</div>
+              <div>작성시간(ms) : {it.created_data}</div>
+            </div>
+          )
+
+만약 이런식으로 key 값을 설정하고 싶지 않다면  두번쨰 파라미터의 idx를 설정함
+단 이방식으로하면 문제 발생의 위험이 있어서 id 키를 쓰는것이 현명한 방법이다.
+JSX 오류 주의 (최상위태그가 있어야함)
+
+   <span className="date">{new Date(created_date).toLocaleString}</span>
+ms를 new Date의 파라미터로 넣으면 값을 변환 => toLocaleString을 통해 시각화함.
+
+===========
+리엑트
+같은 레벨 끼리의 컴포넌트는 서로 데이터를 주고받을 수 없다.
+상위에서 하위로만 보낼수있음, 즉 단방향으로 데이터가 흐른다.
+
+해결법: 두 자식의 state를 공통 부모요소로 끌어 올려서 해결함.
+data는 DiaryList로 setData를 DiaryEditor로 보내서 렌더링을 변화시켜주면 된다.
+(컴포넌트 트리 그려보면 파악 가능함)
+즉 리엑트 컴포넌트는 트리구조임, 단방향데이터흐름
+setData를 props로 전달하여 event data는 아래에서 위로 올라가는 구조임.
+DiartEditor에서 이벤트발생 => 부모로 올라감 => 부모의 배열값이 바뀌어 DiaryList로 내려감
+부모의 함수 이용함.
+
+=>state끌어올리기, 단방향데이터흐름, 역방향 이벤트 흐름
+onCreate함수 코드 참고
+  const onCreate = (author, content, emotion) => {
+    const created_date = new Date.getTime();
+    const newItem = {
+      author,
+      content,
+      emotion,
+      created_date,
+      id: dataid.current,
+    };
+    dataid.current += 1;
+    setData([newItem, ...data]);
+  };
+useRef 정확한 용법 찾아보기
+https://hihiha2.tistory.com/19  => 블로그글 참고
+
+DiaryEditor에서 onCreate에서 새로만들 값들을 보내줌
+    onCreate(state.author, state.content, state.emotion);
+이 onCreate는 props로 전달된 함수이므로
+부모의 onCreate함수가 동작함.
+
+쓴후 남아있는값을 초기화가 필요함.
+
+<DiaryEditor onCreate={onCreate} />
+props로 함수를 보낼 때는 파라미터는 생략가능함.
+
+
+
+
+
+
+
+
+
