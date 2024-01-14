@@ -1,0 +1,148 @@
+1.  리스트 데이터 삭제하기
+      <button
+        onClick={() => {
+          console.log(id);
+        }}>
+        삭제하기
+      </button>
+버튼을 누르면 id값이 출력된다.
+
+const newDiaryList = data.filter((it) => it.id != targetid);
+id값이 삭제할려는 대상 제외하고 새로운 배열을 만들수있음
+
+setData(newDiaryList);
+
+바뀐 배열을 기반으로 setData를 해주면 배열이 재정의 된다.
+
+2. 리스트 데이터 수정하기
+
+  const [isEdit, setIsEdit] = useState(false);
+true 값이 된다면 수정하는 상태로 변환해야함.
+
+const toggleIsEdit = () => setIsEdit(!isEdit); => not 연산을 통해 isEdit의 상태를 바꾼다.
+const [localContent, setLocalContent] = useState("");
+수정할때 textarea를 수정하기 위한 state값 사용
+
+      {isEdit ? (
+        <>
+          <button onClick={toggleIsEdit}>수정취소</button>
+          <button>수정완료</button>
+        </>
+      ) : (
+        <>
+          <button onClick={handleRemove}>삭제하기</button>
+          <button onClick={toggleIsEdit}>수정하기</button>
+        </>
+      )}
+
+삼항 연산자를 활용하여 특정상태일때 원하는 페이지를 띄우는 것이 가능하다.
+
+  const handleQuitEdit = () => {
+    setIsEdit(false); // 창 되돌림
+    setLocalContent(content); // 수정이전으로 content값 되돌림
+  };
+
+수정하지도 않았는데 content에는 사용자가 임의로 입력한 값이 저장되어있는 오류
+발생할 위험이 존재함.
+이를 해결하기 위해서 취소를 누르면 이전상태로 되돌린다.
+
+App.js에서 작성한 일기를 수정하는 함수
+
+  const onEdit = (targetid, newContent) => {
+    setData(
+      data.map((it) =>
+        it.id === targetid ? { ...it, content: newContent } : it
+      )
+    );
+  };
+
+일단 객체를 전부 받은후? content만 수정한 newContent로 객체를 바꿈.
+
+  const handleEdit = () => {
+    if (localContent.length < 5) {
+      localContentInput.current.focus();
+      return;
+    }
+
+    onEdit(id, localContent);
+  };
+
+useRef 훅을 이용해서 focus도 준다.
+useRef의 경우 수정하기를 눌렀을떄 만든 textarea에 적용되어있다.
+
+            <textarea
+              ref={localContentInput}
+              value={localContent}
+              onChange={(e) => setLocalContent(e.target.value)}
+            />
+
+3. LifeCycle 제어 (useEffect)
+Lifecycle = 생애주기
+생애주기란? 탄생부터 죽음에 이르는 순간에 따른 단계적인 과정
+화면에 나타나는것 : Mount
+화면 리렌더링 : Update
+화면에서 사라짐 : UnMount
+생애주기 특정시점에 원하는작업을 하면 LifeCycle을 제어하는 활동을 한 것
+
+ComponentDidMount : Mount 시점
+ComponentDidUpdate : Update 시점
+ComponentWillUnmount : Unmount 시점
+
+=> 이런 컴포넌트들은 클래스형으로만 제작가능함.
+클래스형컴포넌트에서만 쓸수있는 기능인데 함수컴포넌트에서
+함수처럼 불러와서 사용하는 기능을 Hooks라고함
+useState, useRef도 hook 해서 사용하는 것
+
+useEffect => lifrcycle을 제어하는 기능을 훔쳐온 코드
+
+useEffect(()=>{}. [])
+첫번쨰 파라미터 : 콜백함수, 두번째 파라미터 : 의존성 배열
+의존성 배열내에 값이 변화하면 콜백 함수가 수행됨.
+
+
+//단락회로 평가 
+// isVisible이 true라면 UnmountTest 코드 반환하고 false이면 반환하지 않는다.
+즉 단락회로 평가를 이용하면 뒤에 있는 컴포넌트를 렌더할지 말지 여부를 쉽게 설정가능함
+{isVisible && <Unmounttest />} 
+
+콜백함수 한에 return 형태로 박으면 Unmount 시점에서 실행된다.
+  useEffect(() => {
+    console.log("test용 컴포넌트 Mount");
+
+    return () => {
+      // 콜백함수 한에 return 형태로 박으면 Unmount 시점에서 실행된다.
+      console.log("test용 컴포넌트 Unmount!");
+    };
+  }, []);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
