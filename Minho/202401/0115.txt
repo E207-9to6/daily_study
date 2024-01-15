@@ -1,0 +1,93 @@
+1. 최적화1 - 연산 결과 재사용 (메모리제이션 기법 사용)
+
+메모리제이션?
+이미 연산해본 연산결과 기억, 동일한 게산을 시키면
+기억 해 두었던 데이터를 반환 시키게 하는 방법
+
+  const getDiaryAnalysis = () => {
+    console.log("일기 분석 시작");
+
+    const goodCount = data.filter((it) => it.emotion >= 3).length;
+    const badCount = data.length - goodCount;
+    const goodRatio = (goodCount / data.length) * 100;
+    return { goodCount, badCount, goodRatio };
+  };
+
+  const { goodCount, badCount, goodRatio } = getDiaryAnalysis(); 
+비구조화 할당을 통해 객체로 받음
+
+그런데 이 함수가 2번 동작함.
+1번째 : Mount가 되는 순간 0,0,0을 받는 식으로 호출이 한번 됨.
+getData의 API 호출후 setData일어나면서 리렌더됨
+2번째 : 이때 코드가 한번 더 호출됨.
+
+그런데 일기를 수정을 해도 getDiaryAnalysis가 다시 호출되는 문제가 발생함
+(왜냐하면 글을 수정할때 감정수치는 변화하지 않기 때문)
+=> 메모리제이션 기법을 사용하면 리렌더링 방지 가능함.
+
+useMemo (메모리제이션)
+useMemo 사용법
+메모리제이션 하고싶은 함수를 useMemo로 감싸주면 된다.
+즉 useMemo 함수한 콜백함수에 우리가 메모리제이션을 하고싶은 함수를 넣음.
+
+useMemo 쓸때 주의점
+useMemo를 써버리면 return하는 값을 리턴하기 때문에 함수가 아님.
+
+const { goodCount, badCount, goodRatio } = getDiaryAnalysis();  즉 여기서
+const { goodCount, badCount, goodRatio } = getDiaryAnalysis 로 바꿔야 한다.
+
+전체코드
+
+  const getDiaryAnalysis = useMemo(() => {
+    console.log("일기 분석 시작");
+
+    const goodCount = data.filter((it) => it.emotion >= 3).length;
+    const badCount = data.length - goodCount;
+    const goodRatio = (goodCount / data.length) * 100;
+    return { goodCount, badCount, goodRatio };
+  }, [data.length]); // data.length가 변화하지 않으면 똑같은 리턴을 게산하지 않고 반환
+
+  // 객체의 비구조화 할당, 함수가 아니라는 것 주의
+  const { goodCount, badCount, goodRatio } = getDiaryAnalysis;
+
+함수를 최적화 하고싶다면 useMemo를 통해 어떤값이 바뀔때만 연산을
+다시 수행할 것인지 명시해주면 된다.
+
+2. 컴포넌트 재 사용
+
+굳이 리렌더링이 될 필요가 없는 컴포넌트 까지 같이 리렌더링 되서 
+비효율적인 동작을 할 위험성이 있음
+부모, 자식1, 자식2 가 있을때 자식1이 바뀌면 부모가 리렌더링 되는데
+이때 바뀌지 않은 자식2도 같이 리렌더링이 되어 버린다.
+=> 자식1이 리렌더링 됬을때 자식2는 리렌더링 되지 않게 막을 필요성이 있다.
+React.memo 사용함. (함수형 컴포넌트에 업데이트 조건을 검)
+=> 모르는 훅 공식문서를 통해 찾아보기
+
+고차컴포넌트 -> 컴포넌트 재사용을 위한 고급 기술
+컴포넌트를 가져와 새로운 컴포넌트를 반환하는 함수.
+
+똑같은 prop을 주면 똑같은 prop을 반환한다는 뜻 => 즉 리렌더링을 하지 않는다.
+
++@ 로딩못할때 -> 파일 확장자면 js로 설정해주기.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
