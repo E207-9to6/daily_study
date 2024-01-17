@@ -19,8 +19,25 @@
 #### REST API 사용법
 1. URL에는 동사를 쓰지 말고, 자원을 표시해야 한다.
     ```/articles/1```
-2. 동사는 HTTP 메서드로
+ - 동사는 HTTP 메서드로
     ```GET/articles/1```
     ```POST/articles```
     ```PUT/articles/1```
     ```DELETE/articles/1```
+2. 마지막 문자로 슬래시(/)를 포함하지 않는다.
+3. 하이픈을 사용하고, 밑줄을 사용하지 않는다.
+4. url 경로에는 소문자를 사용
+5. 파일 확장자를 url에 포함시키지 않는다.
+
+
+### REST API Method - idempotency
+**GET** 리소스 조회 - YES
+**POST** 리소스 생성 - NO
+**PUT** 리소스 수정(전체) - YES
+**PATCH** 리소스 수정(부분) - NO
+**DELETE** 리소스 삭제 - YES
+
+#### idempotency(멱등성)
+여러 번 수행해도 같은 결과가 나오는 것
+동일한 요청을 한번 보내는 것과 여러번 보내는 것이 같은 효과를 가지며 서버도 동일한 상태를 유지
+
